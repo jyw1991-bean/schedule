@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>绵羊的年</title>
+<style>
+:root,body[data-theme=meadow]{--sky1:#bfe6ff;--sky2:#eaf8e0;--h1:#a9d98b;--h2:#8cc56f;--h3:#6fae58;--cr:255,255,255;--main:#4f9a45;--soft:#e2f2d6;--text:#2f4a2c;--muted:#7a9275;--accent:#f59a8b}
+body[data-theme=sea]{--sky1:#bfe3f5;--sky2:#f2fbff;--h1:#a6d8ea;--h2:#82bfd8;--h3:#5fa5c4;--main:#3a8fb7;--soft:#d3eaf6;--text:#2c4a5a;--muted:#7b95a3;--accent:#ff9fb1}
+body[data-theme=autumn]{--sky1:#ffd9a8;--sky2:#fff4dc;--h1:#ecc980;--h2:#dcae5f;--h3:#c58a42;--main:#c9822b;--soft:#ffe8c2;--text:#5b4020;--muted:#a6906c;--accent:#e87a5d}
+body[data-theme=dusk]{--sky1:#f3bfd2;--sky2:#fde9ef;--h1:#e0b0cb;--h2:#c996b9;--h3:#ad79a0;--main:#b9759b;--soft:#f6d9e6;--text:#5e3b4f;--muted:#a58693;--accent:#8fc9b0}
+body[data-theme=night]{--sky1:#101c38;--sky2:#2b3a63;--h1:#33505f;--h2:#284352;--h3:#1e3442;--cr:30,42,62;--main:#8fc1e8;--soft:#34475f;--text:#e6eef4;--muted:#9db0c2;--accent:#ffb3c1}
+body{--ca:.9;--ha:.45;--bl:6px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--sky2)}
+body{margin:0;color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding-bottom:96px;min-height:100vh}
+#scene{position:fixed;inset:0;z-index:-3;background:linear-gradient(var(--sky1),var(--sky2) 70%)}
+#photo{position:fixed;inset:0;z-index:-2;background-size:cover;background-position:center;display:none}
+#hills{position:fixed;left:0;right:0;bottom:0;width:100%;height:34vh;z-index:-1}
+body.hasphoto:not(.showdeco) .deco{display:none}
+.p1{fill:var(--h1)}.p2{fill:var(--h2)}.p3{fill:var(--h3)}
+.cloud{position:fixed;z-index:-1;background:#fff;border-radius:99px;opacity:.8;height:22px;animation:drift 70s linear infinite}
+.cloud:before,.cloud:after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud:before{width:30px;height:30px;top:-14px;left:12px}.cloud:after{width:22px;height:22px;top:-9px;left:36px}
+body[data-theme=night] .cloud{opacity:.15}
+@keyframes drift{from{transform:translateX(-120px)}to{transform:translateX(110vw)}}
+.bgsheep{position:fixed;z-index:-1;animation:bob 4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-3px)}}
+header{padding:20px 18px 4px;display:flex;align-items:center;gap:10px;transition:opacity .3s}
+header h1{margin:0;font-size:24px;letter-spacing:1px}header small{color:var(--muted)}
+body.hasphoto header{text-shadow:0 1px 4px rgba(var(--cr),.9)}
+main{padding:6px 14px;max-width:760px;margin:0 auto;transition:opacity .35s}
+body.peek main,body.peek header{opacity:0;pointer-events:none}
+.card{background:rgba(var(--cr),var(--ca));border-radius:22px;padding:14px;margin:12px 0;box-shadow:0 4px 16px rgba(0,0,0,.07);backdrop-filter:blur(var(--bl));-webkit-backdrop-filter:blur(var(--bl))}
+.card.hero{background:rgba(var(--cr),var(--ha));box-shadow:none;text-shadow:0 1px 4px rgba(var(--cr),.95)}
+.card h3{margin:0 0 10px;font-size:16px}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(var(--cr),.94);backdrop-filter:blur(10px);padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(0,0,0,.08);z-index:5}
+nav button{flex:1;border:0;background:none;color:var(--muted);font-size:11px;padding:6px 0;border-radius:14px}
+nav button span{display:block;font-size:20px}nav button.on{color:var(--main);background:var(--soft);font-weight:700}
+.fab,.peekbtn{position:fixed;bottom:84px;width:54px;height:54px;border-radius:50%;border:0;color:#fff;font-size:26px;box-shadow:0 6px 16px rgba(0,0,0,.25);z-index:6}
+.fab{right:16px;background:var(--main);font-size:30px}
+.peekbtn{left:16px;background:rgba(var(--cr),.9);color:var(--text)}
+button,input,select,textarea{font:inherit;color:inherit}
+.btn{border:0;background:var(--main);color:#fff;border-radius:14px;padding:9px 14px;cursor:pointer}
+.btn.ghost{background:var(--soft);color:var(--text)}.btn.sm{padding:5px 10px;font-size:13px;border-radius:10px}.btn.danger{background:#e57373}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;border:1.5px solid var(--soft);background:rgba(255,255,255,.85);border-radius:12px;padding:8px 10px;color:#33402f}
+input[type=range]{width:100%}
+body[data-theme=night] input,body[data-theme=night] select,body[data-theme=night] textarea{background:#2a3a52;color:#e6eef4}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.row>.fit{flex:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label.f{display:block;font-size:12px;color:var(--muted);margin:10px 0 3px}
+.chip{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--soft);margin:3px 4px 3px 0;font-size:13px;cursor:pointer;border:2px solid transparent;white-space:nowrap}
+.chip.on{border-color:var(--main);font-weight:700}
+.scroll{overflow-x:auto;white-space:nowrap;padding-bottom:4px}
+.muted{color:var(--muted);font-size:13px}
+.tag{font-size:11px;background:var(--soft);padding:2px 8px;border-radius:99px;margin-right:4px;display:inline-block}
+.hero{text-align:center;position:relative;overflow:hidden}
+.hero h2{margin:4px 0;font-size:26px}
+.bar{height:12px;background:var(--soft);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--main),var(--accent));border-radius:99px}
+.stat{text-align:center;background:var(--soft);border-radius:16px;padding:10px 4px}.stat b{display:block;font-size:20px}.stat small{color:var(--muted);font-size:11px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ev{padding:10px 0;border-bottom:1px dashed var(--soft);cursor:pointer}.ev:last-child{border:0}
+.ev .t{font-weight:700}.ev .ic{float:right;font-size:20px;letter-spacing:2px}
+.mh{margin:14px 4px 0;font-weight:700;color:var(--text)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal .h{text-align:center;font-size:12px;color:var(--muted)}
+.cd{position:relative;aspect-ratio:1/1.3;border-radius:12px;background:var(--soft);padding:3px;font-size:12px;text-align:center;cursor:pointer;overflow:hidden}
+.cd b{display:block;font-weight:600}.cd span{font-size:13px;line-height:1.1;display:block}
+.cd.today{outline:2.5px solid var(--main)}.cd.empty{background:transparent;cursor:default}
+.cd em.gz{display:block;font-style:normal;font-size:9px;color:var(--main);line-height:1.1;margin-top:1px;white-space:nowrap}
+.cd b.hol{color:#d9534f}
+.dot{position:absolute;top:4px;width:6px;height:6px;border-radius:50%}.dot.hk{right:4px;background:#e85d5d}.dot.jp{right:12px;background:#4a7fd6}
+.lab{display:block;padding:7px 0}
+.pick{display:flex;gap:6px;justify-content:space-between}
+.pick div{flex:1;text-align:center;font-size:28px;padding:6px 0;border-radius:14px;background:var(--soft);cursor:pointer;filter:grayscale(.8);opacity:.6}
+.pick div small{display:block;font-size:10px;color:var(--text)}
+.pick div.on{filter:none;opacity:1;outline:2.5px solid var(--main)}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:flex-end;justify-content:center;z-index:20}
+#modal .box{background:var(--sky2);color:var(--text);width:100%;max-width:560px;border-radius:24px 24px 0 0;padding:18px;max-height:90vh;overflow:auto}
+body[data-theme=night] #modal .box{background:#223048}
+.hb{display:flex;align-items:center;gap:8px;margin:6px 0}.hb span.n{width:78px;flex:none;font-size:13px}.hb .bar{flex:1}.hb span.c{width:28px;text-align:right;font-size:13px}
+canvas{width:100%;height:190px;display:block}
+.lock{filter:blur(4px);user-select:none}
+.thumb{height:90px;border-radius:14px;background-size:cover;background-position:center;margin-bottom:8px}
+</style></head><body data-theme="meadow">
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="sheep" viewBox="0 0 64 48"><rect x="20" y="34" width="4" height="12" rx="2" fill="#4a3b35"/><rect x="34" y="34" width="4" height="12" rx="2" fill="#4a3b35"/><rect x="27" y="35" width="4" height="11" rx="2" fill="#5a4a43"/><rect x="41" y="35" width="4" height="11" rx="2" fill="#5a4a43"/>
+<g fill="#fff" stroke="#e3e3e3" stroke-width="1"><circle cx="16" cy="25" r="9"/><circle cx="26" cy="18" r="11"/><circle cx="38" cy="18" r="11"/><circle cx="46" cy="26" r="9"/><circle cx="24" cy="30" r="10"/><circle cx="38" cy="31" r="10"/></g>
+<ellipse cx="54" cy="26" rx="8" ry="9" fill="#4a3b35"/><ellipse cx="49" cy="18" rx="3" ry="5" fill="#4a3b35" transform="rotate(-30 49 18)"/><circle cx="56" cy="24" r="1.6" fill="#fff"/><circle cx="52" cy="28" r="2.2" fill="#f4a6a6" opacity=".7"/></symbol></defs></svg>
+<div id="scene"></div>
+<div id="photo"></div>
+<div class="cloud deco" style="top:9%;width:70px;animation-duration:80s"></div>
+<div class="cloud deco" style="top:20%;width:54px;animation-duration:110s;animation-delay:-40s"></div>
+<svg id="hills" class="deco" viewBox="0 0 400 120" preserveAspectRatio="none"><path class="p3" d="M0,50 Q100,10 210,45 T400,35 V120 H0Z"/><path class="p2" d="M0,72 Q120,34 240,68 T400,62 V120 H0Z"/><path class="p1" d="M0,96 Q100,66 220,90 T400,84 V120 H0Z"/></svg>
+<svg class="bgsheep deco" style="left:8%;bottom:19vh;width:64px"><use href="#sheep"/></svg>
+<svg class="bgsheep deco" style="right:10%;bottom:12vh;width:54px;animation-delay:-2s;transform:scaleX(-1)"><use href="#sheep"/></svg>
+<header><svg width="44" height="34"><use href="#sheep"/></svg><div><h1 id="ttl">绵羊的年</h1><small id="sub"></small></div></header>
+<main id="view"></main>
+<button class="peekbtn" title="暂时隐藏面板,欣赏背景" onclick="document.body.classList.toggle('peek')">👁</button>
+<button class="fab" onclick="editEntry()">＋</button>
+<nav id="nav"></nav>
+<div id="modal" onclick="if(event.target===this)closeModal()"><div class="box" id="mbox"></div></div>
+<script>
+const KEY='mianyang_year_v1',VER=1;
+const THEMES={meadow:'草地',sea:'海岸',autumn:'秋日',dusk:'暮光',night:'夜空'};
+const MOODS=[['😭','很糟'],['😟','低落'],['😐','一般'],['😊','不错'],['🥰','超棒']];
+const ENERGY=[['🥀','耗尽'],['🌱','疲惫'],['🌿','一般'],['🌼','充沛'],['🌻','满格']];
+const TABS=[['home','🏡','总览'],['cal','📅','月历'],['list','📜','记录'],['rev','🌈','回顾'],['set','⚙️','设置']];
+const WD=['日','一','二','三','四','五','六'];
+const TERMS={"2025-12-07": ["大雪", "戊子", ""], "2026-01-05": ["小寒", "己丑", ""], "2026-02-04": ["立春", "庚寅", "丙午"], "2026-03-05": ["惊蛰", "辛卯", ""], "2026-04-05": ["清明", "壬辰", ""], "2026-05-05": ["立夏", "癸巳", ""], "2026-06-05": ["芒种", "甲午", ""], "2026-07-07": ["小暑", "乙未", ""], "2026-08-07": ["立秋", "丙申", ""], "2026-09-07": ["白露", "丁酉", ""], "2026-10-08": ["寒露", "戊戌", ""], "2026-11-07": ["立冬", "己亥", ""], "2026-12-07": ["大雪", "庚子", ""], "2027-01-05": ["小寒", "辛丑", ""], "2027-02-04": ["立春", "壬寅", "丁未"], "2027-03-06": ["惊蛰", "癸卯", ""], "2027-04-05": ["清明", "甲辰", ""], "2027-05-06": ["立夏", "乙巳", ""], "2027-06-06": ["芒种", "丙午", ""], "2027-07-07": ["小暑", "丁未", ""], "2027-08-08": ["立秋", "戊申", ""], "2027-09-08": ["白露", "己酉", ""], "2027-10-08": ["寒露", "庚戌", ""], "2027-11-07": ["立冬", "辛亥", ""], "2027-12-07": ["大雪", "壬子", ""], "2028-01-06": ["小寒", "癸丑", ""], "2028-02-04": ["立春", "甲寅", "戊申"], "2028-03-05": ["惊蛰", "乙卯", ""], "2028-04-04": ["清明", "丙辰", ""], "2028-05-05": ["立夏", "丁巳", ""], "2028-06-05": ["芒种", "戊午", ""], "2028-07-06": ["小暑", "己未", ""], "2028-08-07": ["立秋", "庚申", ""], "2028-09-07": ["白露", "辛酉", ""], "2028-10-08": ["寒露", "壬戌", ""], "2028-11-07": ["立冬", "癸亥", ""], "2028-12-06": ["大雪", "甲子", ""]};
+const HOL_HK={"2026-01-01": "元旦", "2026-02-17": "农历年初一", "2026-02-18": "农历年初二", "2026-02-19": "农历年初三", "2026-04-03": "耶稣受难节", "2026-04-04": "耶稣受难节翌日", "2026-04-06": "清明节翌日(补假)", "2026-04-07": "复活节星期一翌日", "2026-05-01": "劳动节", "2026-05-25": "佛诞翌日(补假)", "2026-06-19": "端午节", "2026-07-01": "香港特区成立纪念日", "2026-09-26": "中秋节翌日", "2026-10-01": "国庆日", "2026-10-19": "重阳节翌日(补假)", "2026-12-25": "圣诞节", "2026-12-26": "圣诞节后第一个工作日", "2027-01-01": "元旦", "2027-02-06": "农历年初一", "2027-02-08": "农历年初三", "2027-02-09": "农历年初四(补假)", "2027-03-26": "耶稣受难节", "2027-03-27": "耶稣受难节翌日", "2027-03-29": "复活节星期一", "2027-04-05": "清明节", "2027-05-01": "劳动节", "2027-05-13": "佛诞", "2027-06-09": "端午节", "2027-07-01": "香港特区成立纪念日", "2027-09-16": "中秋节翌日", "2027-10-01": "国庆日", "2027-10-08": "重阳节", "2027-12-25": "圣诞节", "2027-12-27": "圣诞节后第一个工作日"};
+const HOL_JP={"2026-01-01": "元日", "2026-01-12": "成人の日", "2026-02-11": "建国记念の日", "2026-02-23": "天皇诞生日", "2026-03-20": "春分の日", "2026-04-29": "昭和の日", "2026-05-03": "宪法记念日", "2026-05-04": "みどりの日", "2026-05-05": "こどもの日", "2026-05-06": "振替休日", "2026-07-20": "海の日", "2026-08-11": "山の日", "2026-09-21": "敬老の日", "2026-09-22": "国民の休日", "2026-09-23": "秋分の日", "2026-10-12": "スポーツの日", "2026-11-03": "文化の日", "2026-11-23": "勤労感謝の日", "2027-01-01": "元日", "2027-01-11": "成人の日", "2027-02-11": "建国记念の日", "2027-02-23": "天皇诞生日", "2027-03-21": "春分の日", "2027-03-22": "振替休日", "2027-04-29": "昭和の日", "2027-05-03": "宪法记念日", "2027-05-04": "みどりの日", "2027-05-05": "こどもの日", "2027-07-19": "海の日", "2027-08-11": "山の日", "2027-09-20": "敬老の日", "2027-09-23": "秋分の日", "2027-10-11": "スポーツの日", "2027-11-03": "文化の日", "2027-11-23": "勤労感謝の日"};
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const dkey=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parse=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const diff=(a,b)=>Math.round((parse(b)-parse(a))/864e5);
+const today=()=>dkey(new Date());
+const uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const avg=a=>{a=a.filter(v=>v!=null&&!isNaN(v));return a.length?a.reduce((x,y)=>x+y,0)/a.length:null};
+const f1=v=>v==null?'–':(Math.round(v*10)/10).toString();
+const fdate=s=>{const d=parse(s);return `${d.getMonth()+1}月${d.getDate()}日 周${WD[d.getDay()]}`};
+const frange=e=>e.end>e.start?`${fdate(e.start)} → ${fdate(e.end)}`:fdate(e.start);
+const split=s=>String(s||'').split(/[,,、;;]/).map(x=>x.trim()).filter(Boolean);
+
+function defaults(){return {v:VER,year:2027,theme:'meadow',al:{},showPrivate:false,showHK:true,showJP:true,showGZ:true,photo:'',deco:false,cardA:90,heroA:45,
+ cats:[{n:'旅行',e:'🧳'},{n:'聚餐',e:'🍽️'},{n:'演出展览',e:'🎭'},{n:'户外运动',e:'🥾'},{n:'健康',e:'🩺'},{n:'生活事务',e:'🏠'},{n:'工作成长',e:'💼'},{n:'其他',e:'✨'}],entries:[]}}
+let S;
+function load(){try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}if(!S||!S.entries)S=defaults();fix()}
+function fix(){const d=defaults();for(const k in d)if(S[k]==null)S[k]=d[k];S.v=VER}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true}catch(e){alert('保存失败:存储空间可能已满(照片太大?)');return false}}
+const catE=n=>{const c=S.cats.find(x=>x.n===n);return c?c.e:'📌'};
+const isPast=e=>e.end<today();
+const yearOf=e=>+e.start.slice(0,4);
+const yEntries=()=>S.entries.filter(e=>yearOf(e)===S.year).sort((a,b)=>a.start.localeCompare(b.start));
+const onDay=d=>S.entries.filter(e=>e.start<=d&&e.end>=d);
+const mi=e=>(e.mood?`<span title="心情 ${MOODS[e.mood-1][1]}">${MOODS[e.mood-1][0]}</span>`:'')+(e.energy?`<span title="精力 ${ENERGY[e.energy-1][1]}">${ENERGY[e.energy-1][0]}</span>`:'');
+const alInfo=()=>{const total=+S.al[S.year]||0,used=yEntries().reduce((a,e)=>a+(+e.al||0),0);return {total,used,left:total-used}};
+
+let tab='home',calY,calM,lf={when:'all',cat:'',q:'',all:false},reveal={};
+function initCal(){const t=new Date();if(t.getFullYear()===S.year){calY=S.year;calM=t.getMonth()}else{calY=S.year;calM=0}}
+function go(t){tab=t;render();window.scrollTo(0,0)}
+function applyLook(){
+ const b=document.body,st=b.style;
+ b.dataset.theme=S.theme;
+ st.setProperty('--ca',(S.cardA)/100);st.setProperty('--ha',(S.heroA)/100);st.setProperty('--bl',S.photo?'0px':'6px');
+ const ph=$('photo');ph.style.display=S.photo?'block':'none';ph.style.backgroundImage=S.photo?`url(${S.photo})`:'none';
+ b.classList.toggle('hasphoto',!!S.photo);b.classList.toggle('showdeco',!!S.deco);
+}
+function render(){
+ applyLook();
+ $('ttl').textContent='绵羊的年 '+S.year;
+ $('sub').textContent=`${yEntries().length} 件事被好好记下`;
+ $('nav').innerHTML=TABS.map(([k,i,n])=>`<button class="${k===tab?'on':''}" onclick="go('${k}')"><span>${i}</span>${n}</button>`).join('');
+ $('view').innerHTML={home:vHome,cal:vCal,list:vList,rev:vRev,set:vSet}[tab]();
+ if(tab==='rev')drawRev();
+}
+function card(e){
+ const lock=e.private&&!S.showPrivate&&!reveal[e.id];
+ return `<div class="ev" onclick="${lock?`reveal['${e.id}']=true;render()`:`editEntry('${e.id}')`}">
+ <span class="ic">${lock?'🔒':mi(e)}</span><div class="muted">${frange(e)} · ${catE(e.cat)} ${esc(e.cat)}${e.al>0?` · 🏖️ 年假${e.al}天`:''}</div>
+ <div class="t ${lock?'lock':''}">${lock?'私密记录(点一下查看)':esc(e.title)}</div>
+ ${lock?'':`<div>${split(e.where).map(x=>`<span class="tag">📍${esc(x)}</span>`).join('')}${split(e.who).map(x=>`<span class="tag">👤${esc(x)}</span>`).join('')}</div>${e.note?`<div class="muted" style="margin-top:3px">${esc(e.note)}</div>`:''}`}</div>`;
+}
+function vHome(){
+ const t=today(),Y=S.year,ys=Y+'-01-01',ye=Y+'-12-31';
+ let prog;
+ if(t<ys)prog=`距离 ${Y} 年开始还有 <b>${diff(t,ys)}</b> 天`;
+ else if(t>ye)prog=`${Y} 年已经走完啦`;
+ else{const p=(diff(ys,t)+1)/(diff(ys,ye)+1);prog=`今年已走过 <b>${Math.round(p*100)}%</b>`+`<div class="bar" style="margin-top:8px"><i style="width:${p*100}%"></i></div>`}
+ const up=S.entries.filter(e=>e.end>=t).sort((a,b)=>a.start.localeCompare(b.start)).slice(0,5);
+ const done=yEntries().filter(isPast),moods=done.filter(e=>e.mood),ens=done.filter(e=>e.energy);
+ const a=alInfo(),usedList=yEntries().filter(e=>e.al>0);
+ return `<div class="card hero"><svg width="96" height="72"><use href="#sheep"/></svg><h2>绵羊的年 ${Y}</h2><div class="muted">${prog}</div></div>
+ <div class="grid3"><div class="stat"><b>${done.length}</b><small>已完成的事</small></div><div class="stat"><b>${moods.length?MOODS[Math.round(avg(moods.map(e=>e.mood)))-1][0]:'–'}</b><small>平均心情 ${f1(avg(moods.map(e=>e.mood)))}</small></div><div class="stat"><b>${ens.length?ENERGY[Math.round(avg(ens.map(e=>e.energy)))-1][0]:'–'}</b><small>平均精力 ${f1(avg(ens.map(e=>e.energy)))}</small></div></div>
+ <div class="card"><h3>🌤️ 接下来</h3>${up.map(card).join('')||'<p class="muted">还没有安排。点右下角 ＋ 写下想见的人、想去的地方。</p>'}</div>
+ ${holCard()}<div class="card"><h3>🏖️ 年假</h3>${a.total?`<div class="row"><span>已用 <b>${f1(a.used)}</b> 天</span><span style="text-align:right">剩余 <b>${f1(a.left)}</b> / ${a.total} 天</span></div><div class="bar" style="margin:8px 0"><i style="width:${Math.min(100,a.used/a.total*100)}%"></i></div>`:`<p class="muted">还没设置 ${Y} 年的年假总天数。</p><button class="btn sm" onclick="go('set')">去设置</button>`}
+ ${usedList.map(e=>`<div class="muted" style="padding:2px 0" onclick="editEntry('${e.id}')">• ${fdate(e.start)} ${e.private&&!S.showPrivate?'🔒':esc(e.title)} · ${e.al}天</div>`).join('')}</div>`;
+}
+const TERM_KEYS=Object.keys(TERMS).sort();
+function gzAt(d){let r=null;for(const k of TERM_KEYS){if(k<=d)r=TERMS[k];else break}return r}
+function dayInfo(d){const o=[],t=TERMS[d],hk=HOL_HK[d],jp=HOL_JP[d];
+ if(S.showGZ&&t)o.push(`<span class="tag">节</span>${t[0]} · 换 <b>${t[1]}月</b>${t[2]?` · <b>${t[2]}年</b>开始`:''}`);
+ if(S.showHK&&hk)o.push(`<span class="tag" style="background:#ffd0d0;color:#333">港</span>${hk}`);
+ if(S.showJP&&jp)o.push(`<span class="tag" style="background:#d0e0ff;color:#333">日</span>${jp}`);
+ return o}
+function holCard(){const t=today(),L=[];
+ [[HOL_HK,'港',S.showHK],[HOL_JP,'日',S.showJP]].forEach(([H,tg,on])=>{if(on)Object.keys(H).forEach(d=>{if(d>=t)L.push([d,tg,H[d]])})});
+ L.sort((a,b)=>a[0].localeCompare(b[0])||a[1].localeCompare(b[1]));
+ return `<div class="card"><h3>🎌 近期公众假期</h3>${L.slice(0,6).map(([d,tg,n])=>`<div class="row" style="padding:3px 0"><span class="fit tag" style="background:${tg==='港'?'#ffd0d0':'#d0e0ff'};color:#333">${tg}</span><span>${fdate(d)}</span><span style="text-align:right">${n}</span></div>`).join('')||'<p class="muted">暂无数据(请到设置查看覆盖范围)</p>'}</div>`}
+function vCal(){
+ const t=today(),first=new Date(calY,calM,1).getDay(),days=new Date(calY,calM+1,0).getDate(),m=calY+'-'+pad(calM+1);
+ let cells=WD.map(x=>`<div class="h">${x}</div>`).join('')+'<div class="cd empty"></div>'.repeat(first),info='';
+ for(let i=1;i<=days;i++){const d=`${m}-${pad(i)}`,es=onDay(d),tm=TERMS[d],hk=S.showHK&&HOL_HK[d],jp=S.showJP&&HOL_JP[d];
+  const lab=S.showGZ&&tm?(tm[2]?tm[2]+'年':tm[1]+'月'):'';
+  cells+=`<div class="cd ${d===t?'today':''}" onclick="dayOpen('${d}')"><b class="${hk||jp?'hol':''}">${i}</b><span>${es.slice(0,2).map(e=>e.private&&!S.showPrivate?'🔒':catE(e.cat)).join('')}${es.length>2?'…':''}</span>${lab?`<em class="gz">${lab}</em>`:''}${hk?'<i class="dot hk"></i>':''}${jp?'<i class="dot jp"></i>':''}</div>`;
+  const inf=dayInfo(d);if(inf.length)info+=`<div class="ev" onclick="dayOpen('${d}')"><b>${calM+1}月${i}日 周${WD[new Date(calY,calM,i).getDay()]}</b>${inf.map(x=>`<div>${x}</div>`).join('')}</div>`}
+ const me=S.entries.filter(e=>e.start.slice(0,7)===m&&e.end<t);
+ let gzl='';if(S.showGZ){const g0=gzAt(m+'-01');gzl=g0?`月初:<b>${g0[1]}月</b>`+TERM_KEYS.filter(k=>k.startsWith(m)).map(k=>` → ${+k.slice(8)}日 ${TERMS[k][0]}起 <b>${TERMS[k][1]}月</b>`).join(''):''}
+ const noData=calY>2027&&(S.showHK||S.showJP)?'<div class="muted">该年度的公众假期数据尚未收录。</div>':'';
+ return `<div class="card"><div class="row"><button class="btn ghost fit" onclick="calM--;if(calM<0){calM=11;calY--}render()">◀</button><b style="text-align:center">${calY}年${calM+1}月</b><button class="btn ghost fit" onclick="calM++;if(calM>11){calM=0;calY++}render()">▶</button></div>
+ ${gzl?`<div class="muted" style="text-align:center;margin-top:6px">${gzl}</div>`:''}
+ <div class="scroll" style="margin-top:6px"><span class="chip" onclick="initCal();render()">回到今年</span></div></div>
+ <div class="card"><div class="cal">${cells}</div><div class="muted" style="margin-top:8px"><span style="color:#e85d5d">●</span> 香港公众假期 &nbsp; <span style="color:#4a7fd6">●</span> 日本祝日 &nbsp; 小字:干支月(立春当天为干支年)</div></div>
+ <div class="card"><h3>📌 本月节令与假期</h3>${info||'<p class="muted">本月没有节令或假期标注</p>'}${noData}</div>
+ <div class="card"><h3>🍃 这个月的状态</h3>${me.length?`心情 ${f1(avg(me.map(e=>e.mood)))} · 精力 ${f1(avg(me.map(e=>e.energy)))}(共 ${me.length} 件已完成的事)`:'<span class="muted">本月还没有已完成的记录</span>'}</div>`;
+}
+function dayOpen(d){
+ const es=onDay(d),inf=dayInfo(d);
+ openModal(`<h3 style="margin-top:0">${fdate(d)}</h3>${inf.map(x=>`<div style="padding:3px 0">${x}</div>`).join('')}${es.map(card).join('')||'<p class="muted">这天还没有记录</p>'}
+ <div class="row" style="margin-top:12px"><button class="btn" onclick="closeModal();editEntry(null,'${d}')">＋ 在这天添加</button><button class="btn ghost" onclick="closeModal()">关闭</button></div>`);
+}
+
+function vList(){
+ const t=today();let L=S.entries.slice();
+ if(!lf.all)L=L.filter(e=>yearOf(e)===S.year);
+ if(lf.when==='future')L=L.filter(e=>e.end>=t);if(lf.when==='past')L=L.filter(e=>e.end<t);
+ if(lf.cat)L=L.filter(e=>e.cat===lf.cat);
+ if(lf.q){const k=lf.q.toLowerCase();L=L.filter(e=>!(e.private&&!S.showPrivate)&&(e.title+e.who+e.where+e.note).toLowerCase().includes(k))}
+ L.sort((a,b)=>a.start.localeCompare(b.start));if(lf.when==='past')L.reverse();
+ let h='',lm='';
+ L.forEach(e=>{const m=e.start.slice(0,7);if(m!==lm){lm=m;h+=`<div class="mh">${+m.slice(5)}月 ${m.slice(0,4)}</div>`}h+=`<div class="card" style="margin:6px 0;padding:6px 14px">${card(e)}</div>`});
+ return `<div class="card"><input type="text" placeholder="🔍 搜索活动、人、地点" value="${esc(lf.q)}" onchange="lf.q=this.value;render()">
+ <div style="margin-top:6px">${[['all','全部'],['future','将来'],['past','已完成']].map(([k,n])=>`<span class="chip ${lf.when===k?'on':''}" onclick="lf.when='${k}';render()">${n}</span>`).join('')}<span class="chip ${lf.all?'on':''}" onclick="lf.all=!lf.all;render()">${lf.all?'所有年份':S.year+'年'}</span></div>
+ <div class="scroll"><span class="chip ${!lf.cat?'on':''}" onclick="lf.cat='';render()">全部类别</span>${S.cats.map(c=>`<span class="chip ${lf.cat===c.n?'on':''}" onclick="lf.cat='${esc(c.n)}';render()">${c.e} ${esc(c.n)}</span>`).join('')}</div></div>${h||'<p class="muted" style="text-align:center">没有符合的记录</p>'}`;
+}
+let dm=0,de=0;
+function openModal(h){$('mbox').innerHTML=h;$('modal').style.display='flex'}
+function closeModal(){$('modal').style.display='none'}
+function topTags(key){const m={};S.entries.forEach(e=>split(e[key]).forEach(x=>m[x]=(m[x]||0)+1));return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>x[0])}
+function addTag(id,v){const el=$(id),a=split(el.value);if(!a.includes(v))a.push(v);el.value=a.join('、')}
+function defDate(){const t=today();return t.slice(0,4)==String(S.year)?t:S.year+'-01-01'}
+function editEntry(id,d){
+ const e=S.entries.find(x=>x.id===id)||{title:'',start:d||defDate(),end:'',cat:S.cats[0].n,who:'',where:'',mood:0,energy:0,al:0,note:'',private:false};
+ dm=e.mood||0;de=e.energy||0;
+ const tg=(key,inp)=>topTags(key).map(v=>`<span class="chip" onclick="addTag('${inp}','${esc(v).replace(/'/g,'')}')">${esc(v)}</span>`).join('');
+ openModal(`<h3 style="margin-top:0">${id?'编辑记录':'写下一件事'}</h3>
+ <label class="f">做了/要做什么</label><input type="text" id="e_t" value="${esc(e.title)}" placeholder="例如:和Plave度过愉快的一天~">
+ <div class="grid2"><div><label class="f">开始日期</label><input type="date" id="e_s" value="${e.start}"></div><div><label class="f">结束日期(单日可留空)</label><input type="date" id="e_e" value="${e.end&&e.end!==e.start?e.end:''}"></div></div>
+ <label class="f">类别</label><div class="scroll" id="e_cats">${S.cats.map(c=>`<span class="chip ${c.n===e.cat?'on':''}" data-c="${esc(c.n)}" onclick="document.querySelectorAll('#e_cats .chip').forEach(x=>x.classList.remove('on'));this.classList.add('on')">${c.e} ${esc(c.n)}</span>`).join('')}</div>
+ <label class="f">与谁(可多个,用顿号分隔)</label><input type="text" id="e_w" value="${esc(e.who)}"><div class="scroll">${tg('who','e_w')}</div>
+ <label class="f">在哪</label><input type="text" id="e_p" value="${esc(e.where)}"><div class="scroll">${tg('where','e_p')}</div>
+ <label class="f">当时的心情</label><div class="pick" id="pm">${MOODS.map((m,i)=>`<div class="${dm===i+1?'on':''}" onclick="dm=dm===${i+1}?0:${i+1};pk('pm',dm)">${m[0]}<small>${m[1]}</small></div>`).join('')}</div>
+ <label class="f">当时的精力 / 身体状态</label><div class="pick" id="pe">${ENERGY.map((m,i)=>`<div class="${de===i+1?'on':''}" onclick="de=de===${i+1}?0:${i+1};pk('pe',de)">${m[0]}<small>${m[1]}</small></div>`).join('')}</div>
+ <div class="grid2"><div><label class="f">占用年假(天,可填0.5)</label><input type="number" step="0.5" min="0" id="e_a" value="${e.al||0}"></div><div><label class="f">私密记录</label><label style="display:block;padding-top:8px"><input type="checkbox" id="e_v" ${e.private?'checked':''}> 🔒 默认折叠隐藏</label></div></div>
+ <label class="f">备注 / 当时的感受</label><textarea id="e_n" rows="3">${esc(e.note)}</textarea>
+ <div class="row" style="margin-top:14px"><button class="btn" onclick="saveEntry('${id||''}')">保存</button>${id?`<button class="btn danger" onclick="delEntry('${id}')">删除</button>`:''}<button class="btn ghost" onclick="closeModal()">取消</button></div>`);
+}
+function pk(id,v){[...$(id).children].forEach((c,i)=>c.classList.toggle('on',i+1===v))}
+function saveEntry(id){
+ const title=$('e_t').value.trim(),s=$('e_s').value;if(!title||!s){alert('请填写内容和开始日期');return}
+ let en=$('e_e').value;if(!en||en<s)en=s;
+ const c=document.querySelector('#e_cats .chip.on');
+ let e=S.entries.find(x=>x.id===id);if(!e){e={id:uid()};S.entries.push(e)}
+ Object.assign(e,{title,start:s,end:en,cat:c?c.dataset.c:S.cats[0].n,who:split($('e_w').value).join('、'),where:split($('e_p').value).join('、'),mood:dm,energy:de,al:Math.max(0,+$('e_a').value||0),note:$('e_n').value.trim(),private:$('e_v').checked});
+ save();closeModal();render()}
+function delEntry(id){if(!confirm('删除这条记录?'))return;S.entries=S.entries.filter(e=>e.id!==id);save();closeModal();render()}
+function countBy(es,key){const m={};es.forEach(e=>split(e[key]).forEach(x=>m[x]=(m[x]||0)+1));return Object.entries(m).sort((a,b)=>b[1]-a[1])}
+function bars(list,max){const m=max||Math.max(1,...list.map(x=>x[1]));return list.map(([n,c])=>`<div class="hb"><span class="n">${n}</span><div class="bar"><i style="width:${c/m*100}%"></i></div><span class="c">${c}</span></div>`).join('')||'<p class="muted">暂无数据</p>'}
+function vRev(){
+ const done=yEntries().filter(e=>isPast(e));
+ const cats=S.cats.map(c=>[c.e+' '+esc(c.n),done.filter(e=>e.cat===c.n).length]).filter(x=>x[1]>0);
+ const trips=done.filter(e=>e.cat==='旅行'||e.end>e.start),low=done.filter(e=>(e.mood&&e.mood<=2)||(e.energy&&e.energy<=2));
+ const cities=countBy(done,'where').slice(0,8),ppl=countBy(done,'who').slice(0,8);
+ return `<div class="card"><h3>📈 每月心情与精力</h3><canvas id="rv"></canvas><div class="muted">实线:心情 · 虚线:精力(1–5)</div></div>
+ <div class="card"><h3>🗂️ 做了哪些事(共 ${done.length} 件)</h3>${bars(cats)}</div>
+ <div class="card"><h3>📍 去过的地方</h3>${bars(cities.map(x=>[esc(x[0]),x[1]]))}</div>
+ <div class="card"><h3>👥 见得最多的人</h3>${bars(ppl.map(x=>[esc(x[0]),x[1]]))}</div>
+ <div class="card"><h3>🧳 旅行与外出回顾</h3>${trips.map(card).join('')||'<p class="muted">暂无</p>'}</div>
+ <div class="card"><h3>🌧️ 状态较低的时候(${low.length})</h3><div class="muted" style="margin-bottom:6px">心情或精力在 2 分以下,留给自己回看,照顾好自己。</div>${low.map(card).join('')||'<p class="muted">暂无</p>'}</div>`;
+}
+function drawRev(){
+ const c=$('rv');if(!c)return;const w=c.clientWidth,h=c.clientHeight,r=window.devicePixelRatio||1;c.width=w*r;c.height=h*r;
+ const g=c.getContext('2d');g.scale(r,r);const cs=getComputedStyle(document.body),mu=cs.getPropertyValue('--muted').trim(),m1=cs.getPropertyValue('--main').trim(),m2=cs.getPropertyValue('--accent').trim();
+ const L=28,R=8,T=10,B=22,W=w-L-R,H=h-T-B,X=i=>L+W*i/11,Y=v=>T+H*(1-(v-1)/4);
+ g.font='11px sans-serif';g.fillStyle=mu;g.strokeStyle=mu;
+ for(let v=1;v<=5;v++){g.globalAlpha=.25;g.beginPath();g.moveTo(L,Y(v));g.lineTo(w-R,Y(v));g.stroke();g.globalAlpha=1;g.textAlign='right';g.fillText(v,L-6,Y(v)+4)}
+ g.textAlign='center';for(let i=0;i<12;i++)g.fillText((i+1)+'月',X(i),h-6);
+ const es=yEntries().filter(isPast);let any=false;
+ [['mood',m1,[]],['energy',m2,[6,4]]].forEach(([k,col,dash])=>{
+  const d=[];for(let m=0;m<12;m++)d.push(avg(es.filter(e=>+e.start.slice(5,7)===m+1&&e[k]).map(e=>e[k])));
+  g.strokeStyle=col;g.fillStyle=col;g.lineWidth=2.5;g.setLineDash(dash);g.beginPath();let st=false;
+  d.forEach((v,i)=>{if(v==null){st=false;return}any=true;if(!st){g.moveTo(X(i),Y(v));st=true}else g.lineTo(X(i),Y(v))});g.stroke();g.setLineDash([]);
+  d.forEach((v,i)=>{if(v!=null){g.beginPath();g.arc(X(i),Y(v),3.5,0,7);g.fill()}})});
+ if(!any){g.fillStyle=mu;g.textAlign='center';g.font='13px sans-serif';g.fillText('记录心情和精力后,这里会长出曲线 🌱',w/2,h/2)}
+}
+function setAlpha(k,v){S[k]=+v;const st=document.body.style;st.setProperty(k==='cardA'?'--ca':'--ha',v/100);const lb=$(k+'_v');if(lb)lb.textContent=v+'%'}
+function setPhoto(f){
+ if(!f)return;const rd=new FileReader();
+ rd.onload=e=>{const im=new Image();im.onload=()=>{const s=Math.min(1,1400/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  const old=S.photo;S.photo=c.toDataURL('image/jpeg',.78);if(!save()){S.photo=old}render()};im.onerror=()=>alert('无法读取这张图片');im.src=e.target.result};
+ rd.readAsDataURL(f)}
+function vSet(){
+ const years=[...new Set([S.year,...S.entries.map(yearOf)])].sort();
+ return `<div class="card"><h3>🖼️ 背景照片</h3>${S.photo?`<div class="thumb" style="background-image:url(${S.photo})"></div>`:'<p class="muted">选一张你喜欢的照片作为背景(会自动压缩,只保存在本机)。</p>'}
+ <input type="file" accept="image/*" onchange="setPhoto(this.files[0])">
+ <label class="f">面板透明度:<b id="cardA_v">${S.cardA}%</b>(越低越透明)</label><input type="range" min="15" max="100" value="${S.cardA}" oninput="setAlpha('cardA',this.value)" onchange="save()">
+ <label class="f">总览顶部面板透明度:<b id="heroA_v">${S.heroA}%</b></label><input type="range" min="0" max="100" value="${S.heroA}" oninput="setAlpha('heroA',this.value)" onchange="save()">
+ ${S.photo?`<label class="lab"><input type="checkbox" ${S.deco?'checked':''} onchange="S.deco=this.checked;save();render()"> 同时显示山坡、云和小羊装饰</label><button class="btn sm danger" onclick="if(confirm('移除背景照片?')){S.photo='';save();render()}">移除照片</button>`:''}
+ <p class="muted">小技巧:左下角的 👁 按钮可以暂时隐藏所有面板,专心欣赏背景;再点一次恢复。</p></div>
+ <div class="card"><h3>📆 当前年份</h3><div class="scroll">${years.map(y=>`<span class="chip ${y===S.year?'on':''}" onclick="S.year=${y};save();initCal();render()">${y}</span>`).join('')}</div>
+ <div class="row" style="margin-top:6px"><input type="number" id="ny" placeholder="新增年份,例如 2028"><button class="btn fit" onclick="const y=+$('ny').value;if(y>1990&&y<2200){S.year=y;save();initCal();render()}">切换</button></div></div>
+ <div class="card"><h3>🏖️ ${S.year} 年年假总天数</h3><div class="row"><input type="number" step="0.5" min="0" id="al" value="${S.al[S.year]||''}" placeholder="例如 15"><button class="btn fit" onclick="S.al[S.year]=+$('al').value||0;save();render()">保存</button></div></div>
+ <div class="card"><h3>🎨 风景主题</h3>${Object.entries(THEMES).map(([k,n])=>`<span class="chip ${S.theme===k?'on':''}" onclick="S.theme='${k}';save();render()">${n}</span>`).join('')}</div>
+ <div class="card"><h3>🧭 日历显示</h3>
+ <label class="lab"><input type="checkbox" ${S.showGZ?'checked':''} onchange="S.showGZ=this.checked;save();render()"> 干支月 / 节令(换月当天标注)</label>
+ <label class="lab"><input type="checkbox" ${S.showHK?'checked':''} onchange="S.showHK=this.checked;save();render()"> 香港公众假期</label>
+ <label class="lab"><input type="checkbox" ${S.showJP?'checked':''} onchange="S.showJP=this.checked;save();render()"> 日本国民祝日</label>
+ <p class="muted">数据范围:假期为 2026–2027 年(香港来自政府宪报公布,日本来自内阁府);干支月为 2026–2028 年,按节令交接时刻换月,立春换干支年。</p></div>
+ <div class="card"><h3>🗂️ 类别</h3>${S.cats.map((c,i)=>`<span class="chip" onclick="delCat(${i})">${c.e} ${esc(c.n)} ✕</span>`).join('')}
+ <div class="row" style="margin-top:8px"><input type="text" id="ce" placeholder="图标" style="max-width:70px"><input type="text" id="cn" placeholder="新类别名称"><button class="btn fit" onclick="addCat()">添加</button></div></div>
+ <div class="card"><h3>🔒 私密记录</h3><label><input type="checkbox" ${S.showPrivate?'checked':''} onchange="S.showPrivate=this.checked;save();render()"> 直接显示私密记录(默认折叠)</label>
+ <p class="muted">这只是视觉上的遮挡,不是加密。请不要把页面连同数据放到公开位置。</p></div>
+ <div class="card"><h3>💾 数据备份</h3><p class="muted">数据保存在本浏览器里(含背景照片)。换设备或清理缓存前,请先导出备份。</p>
+ <div class="row"><button class="btn" onclick="exportJSON()">导出 JSON</button><button class="btn ghost" onclick="$('imp').click()">导入 JSON</button></div>
+ <button class="btn ghost" style="width:100%;margin-top:8px" onclick="exportCSV()">导出 CSV(可用 Excel 打开)</button>
+ <input type="file" id="imp" accept=".json,application/json" style="display:none" onchange="importJSON(this.files[0])"></div>
+ <div class="card"><h3>⚠️ 危险操作</h3><button class="btn danger" onclick="if(confirm('确定清空所有数据?建议先导出备份。')){localStorage.removeItem(KEY);load();initCal();render()}">清空所有数据</button></div>`;
+}
+function addCat(){const n=$('cn').value.trim();if(!n)return;S.cats.push({n,e:$('ce').value.trim()||'📌'});save();render()}
+function delCat(i){if(S.cats.length<=1)return;if(!confirm('移除类别「'+S.cats[i].n+'」?已有记录不会被删除。'))return;S.cats.splice(i,1);save();render()}
+function dl(name,blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()}
+function exportJSON(){dl('mianyang_'+today()+'.json',new Blob([JSON.stringify(S)],{type:'application/json'}))}
+function exportCSV(){
+ const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+ const rows=[['开始','结束','类别','内容','与谁','在哪','心情(1-5)','精力(1-5)','年假(天)','备注','私密']];
+ S.entries.slice().sort((a,b)=>a.start.localeCompare(b.start)).forEach(e=>rows.push([e.start,e.end,e.cat,e.title,e.who,e.where,e.mood||'',e.energy||'',e.al||'',e.note,e.private?'是':'']));
+ dl('mianyang_'+today()+'.csv',new Blob(['\ufeff'+rows.map(r=>r.map(q).join(',')).join('\n')],{type:'text/csv'}))}
+function importJSON(f){if(!f)return;const rd=new FileReader();rd.onload=e=>{try{const d=JSON.parse(e.target.result);if(!d.entries)throw 0;if(!confirm('导入会覆盖当前数据,继续吗?'))return;S=d;fix();save();initCal();render();alert('导入成功 🐑')}catch(x){alert('文件格式不正确')}};rd.readAsText(f)}
+window.addEventListener('resize',()=>{if(tab==='rev')drawRev()});
+load();initCal();render();
+</script></body></html>
